@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public record UserDto(
         String firstName,
         String lastName,
-        Integer phone,
+        Long phone,
         String email,
         LocalDate dateOfBirth,
         String occupation,

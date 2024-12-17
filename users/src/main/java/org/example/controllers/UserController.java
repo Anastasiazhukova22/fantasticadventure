@@ -1,8 +1,8 @@
 package org.example.controllers;
 
 import org.example.dto.UserDto;
-import org.example.dto.UserModel;
 import org.example.mappers.UserMapper;
+import org.example.models.UserModel;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;

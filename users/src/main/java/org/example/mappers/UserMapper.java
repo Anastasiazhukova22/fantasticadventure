@@ -1,7 +1,8 @@
 package org.example.mappers;
 
 import org.example.dto.UserDto;
-import org.example.dto.UserModel;
+import org.example.models.UserModel;
+
 
 import java.util.Random;
 

@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+option java_package = "org.example.stubs";
+option java_multiple_files = true;
+import "google/protobuf/timestamp.proto";
+
+message ContentRequest {
+  int32 id = 1;
+}
+
+message ContentResponse {
+  string title = 1;
+  string description = 2;
+  string contentType = 3;
+  string contentUrl = 4;
+  string status = 5;
+  google.protobuf.Timestamp publicationDate = 6;
+  google.protobuf.Timestamp archiveDate = 7;
+  optional string editorNotes = 8;
+  int32 priorityLevel = 9;
+  string contentAccessLevel = 10;
+
+}
+
+service ContentService {
+  rpc GetContent(stream ContentRequest) returns (stream ContentResponse);
+}

@@ -1,4 +1,4 @@
-package org.example.dto;
+package org.example.models;
 
 import java.time.LocalDate;
 
@@ -6,7 +6,7 @@ public record UserModel(
         Integer userId,
         String firstName,
         String lastName,
-        Integer phone,
+        Long phone,
         String email,
         LocalDate dateOfBirth,
         String occupation,
