@@ -1,7 +1,10 @@
 syntax = "proto3";
 
+package org.example.stubs;
+
 option java_package = "org.example.stubs";
 option java_multiple_files = true;
+
 import "google/protobuf/timestamp.proto";
 
 message ContentRequest {
@@ -23,5 +26,5 @@ message ContentResponse {
 }
 
 service ContentService {
-  rpc GetContent(stream ContentRequest) returns (stream ContentResponse);
+  rpc GetContent(ContentRequest) returns (ContentResponse);
 }

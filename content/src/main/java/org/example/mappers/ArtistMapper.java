@@ -1,7 +1,8 @@
 package org.example.mappers;
 
-import org.example.dto.ArtistContent;
+
 import org.example.dto.ArtistContentDto;
+import org.example.models.ArtistContent;
 
 import java.util.Random;
 
