@@ -25,6 +25,22 @@ message ContentResponse {
 
 }
 
+message AddContentRequest {
+  string title = 1;
+  string description = 2;
+  string contentType = 3;
+  string contentUrl = 4;
+  string status = 5;
+  optional string editorNotes = 6;
+  int32 priorityLevel = 7;
+  string contentAccessLevel = 8;
+}
+
+message AddContentResponse {
+  int32 id = 1;
+}
+
 service ContentService {
   rpc GetContent(ContentRequest) returns (ContentResponse);
+  rpc AddContent(AddContentRequest) returns (AddContentResponse);
 }

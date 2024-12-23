@@ -1,3 +1,8 @@
 grpc:
+  client:
+    hello:
+      negotiation-type: plaintext
   server:
     port: 8090
+    hello:
+      negotiation-type: plaintext

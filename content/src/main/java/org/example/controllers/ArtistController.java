@@ -17,7 +17,7 @@ public class ArtistController {
     @PostMapping("/content/add")
     public String addContent(@RequestBody ArtistContentDto artistContent) {
         ArtistContent contentmodel = ArtistMapper.map(artistContent);
-        contentList.add(contentmodel);
+        contentList.add(contentmodel); //перенести в grpc
 
         System.out.println(artistContent);
         return "На сайт добавлен новый материал c id" + contentmodel.contentId();
