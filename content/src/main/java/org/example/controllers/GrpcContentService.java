@@ -9,6 +9,8 @@ import org.example.stubs.ContentRequest;
 import org.example.stubs.ContentResponse;
 import org.example.stubs.ContentServiceGrpc;
 
+import javax.annotation.processing.Generated;
+
 import static com.google.protobuf.Timestamp.*;
 
 @GrpcService
@@ -51,10 +53,10 @@ public class GrpcContentService extends ContentServiceGrpc.ContentServiceImplBas
         int priorityLevel = request.getPriorityLevel();
         String contentAccessLevel = request.getContentAccessLevel();
 
-        int generatedId = generateId();
+        int generateId = generatedId();
 
         AddContentResponse response = AddContentResponse.newBuilder()
-                .setId(generatedId)
+                .setId(generateId)
                 .setMessage("data is published")
                 .build();
 
@@ -62,7 +64,7 @@ public class GrpcContentService extends ContentServiceGrpc.ContentServiceImplBas
         responseObserver.onCompleted();
     }
 
-    private int generateId() {
+    private int generatedId() {
         return 12345;
     }
 
