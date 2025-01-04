@@ -1,5 +1,6 @@
 package org.example.controllers;
 
+import com.google.protobuf.Int32Value;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.example.stubs.AddContentRequest;
@@ -21,7 +22,7 @@ public class GrpcContentService extends ContentServiceGrpc.ContentServiceImplBas
 
     @Override
     public void getContent(ContentRequest request, StreamObserver<ContentResponse> responseObserver) {
-        ContentResponse contentResponse = controller.contentList.stream().filter(c -> c.contentId() == request.getId())
+        ContentResponse contentResponse = controller.contentList.stream().filter(c -> c.contentId() == request.getGeneratedId())
                 .findAny().map(c -> ContentResponse.newBuilder() //get добавить свой контент лист на grpc
                         .setTitle(c.title())
                         .setDescription(c.description())
@@ -39,8 +40,31 @@ public class GrpcContentService extends ContentServiceGrpc.ContentServiceImplBas
         responseObserver.onNext(contentResponse);
         responseObserver.onCompleted();
     }
+
     @Override
     public void addContent(AddContentRequest request, StreamObserver<AddContentResponse> responseObserver) {
+        String title = request.getTitle();
+        String description = request.getDescription();
+        String contentType = request.getContentType();
+        String contentUrl = request.getContentUrl();
+        String status = request.getStatus();
+        int priorityLevel = request.getPriorityLevel();
+        String contentAccessLevel = request.getContentAccessLevel();
 
+        int generatedId = generateId();
+
+        AddContentResponse response = AddContentResponse.newBuilder()
+                .setId(generatedId)
+                .setMessage("data is published")
+                .build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
     }
+
+    private int generateId() {
+        return 12345;
+    }
+
 }
+

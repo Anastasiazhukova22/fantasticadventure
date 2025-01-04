@@ -2,13 +2,14 @@ syntax = "proto3";
 
 package org.example.stubs;
 
+
 option java_package = "org.example.stubs";
 option java_multiple_files = true;
 
 import "google/protobuf/timestamp.proto";
 
 message ContentRequest {
-  int32 id = 1;
+  int32 generatedId = 1;
 }
 
 message ContentResponse {
@@ -38,6 +39,7 @@ message AddContentRequest {
 
 message AddContentResponse {
   int32 id = 1;
+  string message = 2;
 }
 
 service ContentService {
