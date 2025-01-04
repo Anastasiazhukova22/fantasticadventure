@@ -3,13 +3,12 @@ package org.example.controllers;
 import com.google.protobuf.Int32Value;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
-import org.example.stubs.AddContentRequest;
-import org.example.stubs.AddContentResponse;
-import org.example.stubs.ContentRequest;
-import org.example.stubs.ContentResponse;
-import org.example.stubs.ContentServiceGrpc;
+import org.example.stubs.*;
 
 import javax.annotation.processing.Generated;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.google.protobuf.Timestamp.*;
 
@@ -43,6 +42,8 @@ public class GrpcContentService extends ContentServiceGrpc.ContentServiceImplBas
         responseObserver.onCompleted();
     }
 
+    private final List<Content> contentStorage = new ArrayList<>();
+
     @Override
     public void addContent(AddContentRequest request, StreamObserver<AddContentResponse> responseObserver) {
         String title = request.getTitle();
@@ -53,10 +54,13 @@ public class GrpcContentService extends ContentServiceGrpc.ContentServiceImplBas
         int priorityLevel = request.getPriorityLevel();
         String contentAccessLevel = request.getContentAccessLevel();
 
-        int generateId = generatedId();
+        int generatedId = generatedId();
+
+        Content content = new Content(generatedId, title, description, contentType, contentUrl, status, priorityLevel, contentAccessLevel);
+        contentStorage.add(content);
 
         AddContentResponse response = AddContentResponse.newBuilder()
-                .setId(generateId)
+                .setId(generatedId)
                 .setMessage("data is published")
                 .build();
 
@@ -65,8 +69,30 @@ public class GrpcContentService extends ContentServiceGrpc.ContentServiceImplBas
     }
 
     private int generatedId() {
-        return 12345;
+        return contentStorage.size() + 1;
     }
 
+    private static class Content {
+        int id;
+        String title;
+        String description;
+        String contentType;
+        String contentUrl;
+        String status;
+        int priorityLevel;
+        String contentAccessLevel;
+
+        public Content(int id, String title, String description, String contentType, String contentUrl, String status, int priorityLevel, String contentAccessLevel) {
+            this.id = id;
+            this.title = title;
+            this.description = description;
+            this.contentType = contentType;
+            this.contentUrl = contentUrl;
+            this.status = status;
+            this.priorityLevel = priorityLevel;
+            this.contentAccessLevel = contentAccessLevel;
+        }
+    }
 }
+
 
