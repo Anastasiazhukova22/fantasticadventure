@@ -3,6 +3,7 @@ package org.example.controllers;
 import com.google.protobuf.Int32Value;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
+import org.example.models.Content;
 import org.example.stubs.*;
 
 import javax.annotation.processing.Generated;
@@ -16,6 +17,7 @@ import static com.google.protobuf.Timestamp.*;
 public class GrpcContentService extends ContentServiceGrpc.ContentServiceImplBase {
 
     private final ArtistController controller;
+    private final List<Content> contentStorage = new ArrayList<>();
 
     public GrpcContentService(ArtistController controller) {
         this.controller = controller;
@@ -23,8 +25,8 @@ public class GrpcContentService extends ContentServiceGrpc.ContentServiceImplBas
 
     @Override
     public void getContent(ContentRequest request, StreamObserver<ContentResponse> responseObserver) {
-        ContentResponse contentResponse = controller.contentList.stream().filter(c -> c.contentId() == request.getGeneratedId())
-                .findAny().map(c -> ContentResponse.newBuilder() //get добавить свой контент лист на grpc
+        ContentResponse contentResponse = contentStorage.stream().filter(c -> c.id() == request.getGeneratedId())
+                .findAny().map(c -> ContentResponse.newBuilder()
                         .setTitle(c.title())
                         .setDescription(c.description())
                         .setContentType(c.contentType())
@@ -33,7 +35,6 @@ public class GrpcContentService extends ContentServiceGrpc.ContentServiceImplBas
                         //todo set timestamps 
                         .setPublicationDate(newBuilder().build())
                         .setArchiveDate(newBuilder().build())
-                        .setEditorNotes(c.editorNotes() == null ? "" : c.editorNotes())
                         .setPriorityLevel(c.priorityLevel())
                         .setContentAccessLevel(c.contentAccessLevel())
                         .build()
@@ -41,8 +42,6 @@ public class GrpcContentService extends ContentServiceGrpc.ContentServiceImplBas
         responseObserver.onNext(contentResponse);
         responseObserver.onCompleted();
     }
-
-    private final List<Content> contentStorage = new ArrayList<>();
 
     @Override
     public void addContent(AddContentRequest request, StreamObserver<AddContentResponse> responseObserver) {
@@ -59,6 +58,8 @@ public class GrpcContentService extends ContentServiceGrpc.ContentServiceImplBas
         Content content = new Content(generatedId, title, description, contentType, contentUrl, status, priorityLevel, contentAccessLevel);
         contentStorage.add(content);
 
+        System.out.println("ID" + content.id() + " " + content.title());
+
         AddContentResponse response = AddContentResponse.newBuilder()
                 .setId(generatedId)
                 .setMessage("data is published")
@@ -72,27 +73,6 @@ public class GrpcContentService extends ContentServiceGrpc.ContentServiceImplBas
         return contentStorage.size() + 1;
     }
 
-    private static class Content {
-        int id;
-        String title;
-        String description;
-        String contentType;
-        String contentUrl;
-        String status;
-        int priorityLevel;
-        String contentAccessLevel;
-
-        public Content(int id, String title, String description, String contentType, String contentUrl, String status, int priorityLevel, String contentAccessLevel) {
-            this.id = id;
-            this.title = title;
-            this.description = description;
-            this.contentType = contentType;
-            this.contentUrl = contentUrl;
-            this.status = status;
-            this.priorityLevel = priorityLevel;
-            this.contentAccessLevel = contentAccessLevel;
-        }
-    }
 }
 
 
