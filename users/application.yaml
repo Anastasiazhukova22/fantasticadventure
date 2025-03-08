@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://db_users:5432/users_db
+    username: users_user
+    password: example
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true

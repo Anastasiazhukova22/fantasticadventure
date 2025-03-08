@@ -3,20 +3,17 @@ package org.example.mappers;
 import org.example.dto.UserDto;
 import org.example.models.UserModel;
 
-
-import java.util.Random;
-
 public class UserMapper {
-    public static UserModel map (UserDto dto) {
-        return new UserModel(new Random().nextInt(),
-                dto.firstName(),
-                dto.lastName(),
-                dto.phone(),
-                dto.email(),
-                dto.dateOfBirth(),
-                dto.occupation(),
-                dto.subscriptionStartDate(),
-                dto.subscriptionFinalDate());
-
+    public static UserModel map(UserDto userDto) {
+        UserModel userModel = new UserModel();
+        userModel.setFirstName(userDto.firstName());
+        userModel.setLastName(userDto.lastName());
+        userModel.setPhone(userDto.phone());
+        userModel.setEmail(userDto.email());
+        userModel.setDateOfBirth(userDto.dateOfBirth());
+        userModel.setOccupation(userDto.occupation());
+        userModel.setSubscriptionStartDate(userDto.subscriptionStartDate());
+        userModel.setSubscriptionFinalDate(userDto.subscriptionFinalDate());
+        return userModel;
     }
 }

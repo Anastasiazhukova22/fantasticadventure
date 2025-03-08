@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://db_content:5432/content_db  # Для app_content
+    username: content_user  # Для app_content
+    password: example
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true

@@ -3,32 +3,26 @@ package org.example.controllers;
 import org.example.dto.UserDto;
 import org.example.mappers.UserMapper;
 import org.example.models.UserModel;
+import org.example.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
-
+@RequestMapping("/user")
 public class UserController {
 
-    List<UserModel> userList = new ArrayList<>();
+    @Autowired
+    private UserRepository userRepository;
 
-
-    @PostMapping("/user/add")
-    public String addUser (@RequestBody UserDto userModel) {
-        UserModel usermodel = UserMapper.map(userModel);
-        userList.add(usermodel);
-
-        System.out.println(userModel);
-        return "На сайт добавлен новый пользователь с ID" + usermodel.userId();
+    @PostMapping("/add")
+    public String addUser(@RequestBody UserDto userDto) {
+        UserModel userModel = UserMapper.map(userDto);
+        userRepository.save(userModel);
+        return "На сайт добавлен новый пользователь с ID " + userModel.getUserId();
     }
 
-    @GetMapping("/user/get")
-    public UserModel getuser(Integer userId) {
-
-        return userList.stream().filter(u ->userId.equals(u.userId())).findAny().get();
+    @GetMapping("/get")
+    public UserModel getUserId(@RequestParam Integer userId) {
+        return userRepository.findById(userId).orElse(null);
     }
-
 }
-
-

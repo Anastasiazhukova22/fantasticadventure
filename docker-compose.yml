@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  db_content:
+    image: postgres
+    restart: always
+    shm_size: 128mb
+    environment:
+      POSTGRES_DB: content_db
+      POSTGRES_USER: content_user
+      POSTGRES_PASSWORD: example
+    ports:
+      - "5432:5432"  # Порт для подключения к db_content
+
+  db_users:
+    image: postgres
+    restart: always
+    shm_size: 128mb
+    environment:
+      POSTGRES_DB: users_db
+      POSTGRES_USER: users_user
+      POSTGRES_PASSWORD: example
+    ports:
+      - "5433:5432"  # Порт для подключения к db_users
+
+  app_content:
+    image: content:3.3.2
+    ports:
+      - 8090:8090
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db_content:5432/content_db
+      SPRING_DATASOURCE_USERNAME: content_user
+      SPRING_DATASOURCE_PASSWORD: example
+    depends_on:
+      - db_content
+
+  app_users:
+    image: users:latest
+    ports:
+      - 8081:8081
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db_users:5432/users_db
+      SPRING_DATASOURCE_USERNAME: users_user
+      SPRING_DATASOURCE_PASSWORD: example
+    depends_on:
+      - db_users
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - db_content
+      - db_users

@@ -1,18 +1,13 @@
-package org.example.models;
+package org.example.entity;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
-public class UserModel {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer userId;
+public class User {
+    private UUID userId;
     private String firstName;
     private String lastName;
     private Long phone;
@@ -22,12 +17,14 @@ public class UserModel {
     private LocalDate subscriptionStartDate;
     private LocalDate subscriptionFinalDate;
 
-    // Геттеры и сеттеры
-    public Integer getUserId() {
+    public User() {
+    }
+
+    public UUID getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(UUID userId) {
         this.userId = userId;
     }
 
