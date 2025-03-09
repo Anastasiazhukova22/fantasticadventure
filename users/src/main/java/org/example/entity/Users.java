@@ -1,13 +1,15 @@
 package org.example.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
-@Entity
-public class User {
-    private UUID userId;
+public class Users {
+
+    private Integer userId;
     private String firstName;
     private String lastName;
     private Long phone;
@@ -17,14 +19,14 @@ public class User {
     private LocalDate subscriptionStartDate;
     private LocalDate subscriptionFinalDate;
 
-    public User() {
+    public Users() {
     }
 
-    public UUID getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(UUID userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 

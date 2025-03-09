@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 import java.time.LocalDate;
 
 @Entity
-public class UserModel {
+public class UsersModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
